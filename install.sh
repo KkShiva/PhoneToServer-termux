@@ -21,7 +21,7 @@ mkdir -p ~/.config/copyparty
 cat > ~/.config/copyparty/start.sh << 'EOF'
 #!/data/data/com.termux/files/usr/bin/bash
 
-copyparty -p 8080 -v ~/storage/shared::r
+copyparty -p 8050 -v ~/storage/shared::r
 EOF
 
 chmod +x ~/.config/copyparty/start.sh
