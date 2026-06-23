@@ -36,5 +36,11 @@ echo "python setup_copyparty.py"
 echo
 
 cd ~/PhoneToServer-termux
+
+
+
+
 ls
+
+
 
