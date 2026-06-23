@@ -4,7 +4,7 @@ echo "Updating packages..."
 pkg update -y
 
 echo "Installing requirements..."
-pkg install -y python unzip wget
+pkg install -y git python unzip
 
 echo "Installing Copyparty..."
 pip install --upgrade pip
@@ -13,15 +13,12 @@ pip install --upgrade copyparty
 WORKDIR="$HOME/PhoneToServer-termux"
 
 rm -rf "$WORKDIR"
-mkdir -p "$WORKDIR"
 
-cd "$HOME" || exit 1
+echo "Downloading project..."
+git clone https://github.com/KkShiva/PhoneToServer-termux.git "$WORKDIR"
 
-wget -O PhoneToServer-termux.zip 
-https://github.com/KkShiva/PhoneToServer-termux/archive/refs/heads/main.zip
+cd "$WORKDIR" || exit 1
 
-unzip -o PhoneToServer-termux.zip
-
-cd PhoneToServer-termux-main || exit 1
-
+echo
+echo "Running setup..."
 python setup_copyparty.py
