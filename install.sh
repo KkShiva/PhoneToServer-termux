@@ -10,7 +10,7 @@ pkg install -y python wget unzip net-tools
 rm -rf "$APPDIR"
 
 wget -O master.zip 
-https://github.com/YOURUSER/copyparty-android/archive/refs/heads/main.zip
+https://github.com/KkShiva/PhoneToServer-termux/archive/refs/heads/main.zip
 
 unzip master.zip
 
