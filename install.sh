@@ -1,28 +1,46 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-set -e
-
-APPDIR="$HOME/copyparty-android"
-
+echo "Updating packages..."
 pkg update -y
-pkg install -y python wget unzip net-tools
 
-rm -rf "$APPDIR"
+echo "Installing Python..."
+pkg install -y python
+pkg install net-tools
 
-wget -O master.zip 
-https://github.com/KkShiva/PhoneToServer-termux/archive/refs/heads/main.zip
-
-unzip master.zip
-
-mv copyparty-android-main "$APPDIR"
-
-cd "$APPDIR"
-
+echo "Installing Copyparty..."
 pip install --upgrade pip
-pip install -r requirements.txt
+pip install --upgrade copyparty
 
 echo ""
-echo "Starting Web UI..."
+echo "Grant storage permission if not already done:"
+echo ""
+echo "    termux-setup-storage"
 echo ""
 
-python server.py
+mkdir -p ~/.config/copyparty
+
+cat > ~/.config/copyparty/start.sh << 'EOF'
+#!/data/data/com.termux/files/usr/bin/bash
+
+copyparty -p 8080 -v ~/storage/shared::r
+EOF
+
+chmod +x ~/.config/copyparty/start.sh
+
+echo ""
+echo "Installation complete."
+echo ""
+echo "Start server with:"
+echo ""
+echo "    ~/.config/copyparty/start.sh"
+echo ""
+echo "Then open:"
+
+
+echo ""
+echo "    http://PHONE-IP:8080"
+echo ""
+
+ifconfig
+copyparty -p 8080 -v ~/storage/shared::r
+
