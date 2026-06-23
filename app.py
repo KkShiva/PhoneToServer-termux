@@ -51,7 +51,7 @@ def main():
         "-p",
         port,
         "-v",
-        "~/storage/shared::r"
+        "~/storage/shared::rw"
     ]
 
     subprocess.run(" ".join(cmd), shell=True)
