@@ -7,11 +7,12 @@ import subprocess
 def get_ip():
     try:
         output = subprocess.check_output(
-            ["ip", "-4", "addr"],
-            text=True
+            ["ifconfig"],
+            text=True,
+            stderr=subprocess.DEVNULL
         )
 
-        ips = re.findall(r"inet (\d+\.\d+\.\d+\.\d+)", output)
+        ips = re.findall(r'inet\s+(\d+\.\d+\.\d+\.\d+)', output)
 
         for ip in ips:
             if not ip.startswith("127."):
@@ -21,8 +22,6 @@ def get_ip():
         pass
 
     return "Unknown"
-
-ip = get_ip()
 
 print()
 print("=" * 50)
