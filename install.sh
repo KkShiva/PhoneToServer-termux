@@ -1,46 +1,30 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+set -e
+
 echo "Updating packages..."
 pkg update -y
 
-echo "Installing Python..."
-pkg install -y python
-pkg install net-tools
+echo "Installing dependencies..."
+pkg install -y python net-tools termux-api
+
+echo "Grant storage access..."
+termux-setup-storage
 
 echo "Installing Copyparty..."
-pip install --upgrade pip
-pip install --upgrade copyparty
+python -m pip install --upgrade pip
+python -m pip install --upgrade copyparty
+
+mkdir -p ~/PhoneToServer
+
+curl -L 
+https://raw.githubusercontent.com/KkShiva/PhoneToServer-termux/main/app.py 
+-o ~/PhoneToServer/app.py
+
+chmod +x ~/PhoneToServer/app.py
 
 echo ""
-echo "Grant storage permission if not already done:"
+echo "Installation completed."
 echo ""
-echo "    termux-setup-storage"
-echo ""
-
-mkdir -p ~/.config/copyparty
-
-cat > ~/.config/copyparty/start.sh << 'EOF'
-#!/data/data/com.termux/files/usr/bin/bash
-
-copyparty -p 8080 -v ~/storage/shared::r
-EOF
-
-chmod +x ~/.config/copyparty/start.sh
-
-echo ""
-echo "Installation complete."
-echo ""
-echo "Start server with:"
-echo ""
-echo "    ~/.config/copyparty/start.sh"
-echo ""
-echo "Then open:"
-
-
-echo ""
-echo "    http://PHONE-IP:8080"
-echo ""
-
-ifconfig
-copyparty -p 8080 -v ~/storage/shared::r
-
+echo "Run:"
+echo "python ~/PhoneToServer/app.py"
