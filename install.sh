@@ -34,3 +34,7 @@ echo
 echo "cd $WORKDIR"
 echo "python setup_copyparty.py"
 echo
+
+cd ~/PhoneToServer-termux
+ls
+
