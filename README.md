@@ -1,27 +1,5 @@
-# Copyparty Termux Installer
+# Copyparty Android UI
 
-Install Copyparty on Android Termux with one command.
+Run:
 
-## Install
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/KkShiva/PhoneToServer-termux/main/install.sh | bash
-```
-
-## Start
-
-```bash
-~/.config/copyparty/start.sh
-```
-
-## Access
-
-```
-http://PHONE-IP:8080
-```
-
-## Storage Permission
-
-```bash
-termux-setup-storage
-```
+curl -fsSL <your-install-url> | bash
