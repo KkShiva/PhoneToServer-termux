@@ -19,11 +19,13 @@ echo "========================================"
 ifconfig
 echo
 
-read -p "Enter Copyparty port [8080]: " PORT
+echo
+printf "Enter Copyparty port [8080]: "
+read PORT
 
-if [ -z "$PORT" ]; then
-    PORT=8080
-fi
+[ -z "$PORT" ] && PORT=8080
+
+echo "Selected port: $PORT"
 
 cat > ~/.config/copyparty/run-copyparty.sh << EOF
 #!/data/data/com.termux/files/usr/bin/bash
