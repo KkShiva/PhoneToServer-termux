@@ -8,4 +8,4 @@ pip install --upgrade copyparty
 
 mkdir -p ~/.config/copyparty
 
-python3 setup_copyparty.py
+python setup_copyparty.py
