@@ -6,9 +6,8 @@ import sys
 import os
 
 def get_ip():
-"""
-Get first non-local IPv4 address.
-"""
+
+
 try:
 output = subprocess.check_output(
 ["ifconfig"],
