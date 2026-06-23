@@ -4,29 +4,37 @@ echo "Updating packages..."
 pkg update -y
 
 echo "Installing Python..."
-pkg install -y python
-pkg install net-tools
+pkg install -y python net-tools
 
 echo "Installing Copyparty..."
 pip install --upgrade pip
 pip install --upgrade copyparty
 
-
-
-
 mkdir -p ~/.config/copyparty
 
-cat > ~/.config/copyparty/start.sh << 'EOF'
+echo
+echo "========================================"
+echo "Network Information"
+echo "========================================"
+ifconfig
+echo
+
+read -p "Enter Copyparty port [8080]: " PORT
+
+if [ -z "$PORT" ]; then
+    PORT=8080
+fi
+
+cat > ~/.config/copyparty/run-copyparty.sh << EOF
 #!/data/data/com.termux/files/usr/bin/bash
 
-copyparty -p 8080 -v ~/storage/shared::r
+copyparty -p $PORT -v ~/storage/shared::r
 EOF
 
-chmod +x ~/.config/copyparty/start.sh
+chmod +x ~/.config/copyparty/run-copyparty.sh
 
+echo
+echo "Starting Copyparty on port $PORT ..."
+echo
 
-
-
-ifconfig
-copyparty -p 8080 -v ~/storage/shared::r
-
+~/.config/copyparty/run-copyparty.sh
