@@ -18,10 +18,7 @@ def get_ip():
             if not ip.startswith("127."):
                 return ip
 
-    except Exception:
-        pass
 
-    return "Unknown"
 
 ip = get_ip()
 print(ip)
