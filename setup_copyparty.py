@@ -1,8 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/python
 
 import os
-import re
 import subprocess
+import re
 
 def get_ip():
     try:
@@ -17,6 +17,14 @@ def get_ip():
         for ip in ips:
             if not ip.startswith("127."):
                 return ip
+
+    except Exception:
+        pass
+
+    return "Unknown"
+
+ip = get_ip()
+print(ip)
 
     except Exception:
         pass
