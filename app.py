@@ -1,77 +1,129 @@
-from flask import Flask, render_template, request
-import os
+#!/usr/bin/env python3
+
 import subprocess
-import threading
-import socket
-
-app = Flask(__name__)
-
-BASE_DIR = "/storage/shared"
-
+import re
+import sys
+import os
 
 def get_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+try:
+output = subprocess.check_output(
+["ifconfig"],
+text=True,
+stderr=subprocess.DEVNULL
+)
+
+```
+    ips = re.findall(
+        r'inet\s+(\d+\.\d+\.\d+\.\d+)',
+        output
+    )
+
+    for ip in ips:
+        if not ip.startswith("127."):
+            return ip
+
+    return None
+
+except Exception as e:
+    print(f"Error detecting IP: {e}")
+    return None
+```
+
+def select_share_folder():
+
+```
+print("\nShare Location")
+print("--------------")
+print("1. Share entire Internal Storage (/storage/shared)")
+print("2. Pick a file from desired folder")
+
+choice = input("\nChoice [1]: ").strip()
+
+if choice == "" or choice == "1":
+    return "/storage/shared"
+
+if choice == "2":
 
     try:
-        s.connect(("8.8.8.8", 80))
-        ip = s.getsockname()[0]
-    except:
-        ip = "127.0.0.1"
+        print("\nAndroid file picker will open.")
+        print("Select ANY file inside the folder you want to share.\n")
 
-    s.close()
-    return ip
+        selected_file = subprocess.check_output(
+            ["termux-file-picker"],
+            text=True
+        ).strip()
 
+        if not selected_file:
+            print("No file selected.")
+            sys.exit(0)
 
-def start_copyparty(folder, port):
-    subprocess.Popen([
-        "copyparty",
-        "-p",
-        str(port),
-        "-v",
-        f"{folder}::r"
-    ])
+        folder = os.path.dirname(selected_file)
 
+        print(f"\nSelected File:")
+        print(selected_file)
 
-@app.route("/")
-def home():
+        print(f"\nSharing Folder:")
+        print(folder)
 
-    folders = []
+        return folder
 
-    for item in sorted(os.listdir(BASE_DIR)):
-        full = os.path.join(BASE_DIR, item)
+    except FileNotFoundError:
+        print("\ntermux-file-picker not found.")
+        print("Install with:")
+        print("pkg install termux-api")
+        sys.exit(1)
 
-        if os.path.isdir(full):
-            folders.append(full)
+    except Exception as e:
+        print(f"\nError: {e}")
+        sys.exit(1)
 
-    return render_template(
-        "index.html",
-        folders=folders,
-        ip=get_ip()
-    )
+print("Invalid selection.")
+sys.exit(1)
+```
 
+def main():
 
-@app.route("/start", methods=["POST"])
-def start():
+```
+print("\n========================")
+print("   PhoneToServer")
+print("========================")
 
-    folder = request.form["folder"]
-    port = request.form["port"]
+ip = get_ip()
 
-    threading.Thread(
-        target=start_copyparty,
-        args=(folder, port),
-        daemon=True
-    ).start()
+if not ip:
+    print("Unable to detect IP address.")
+    sys.exit(1)
 
-    return render_template(
-        "success.html",
-        folder=folder,
-        port=port,
-        ip=get_ip()
-    )
+print(f"\nDetected IP : {ip}")
 
+share_dir = select_share_folder()
 
-if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=5000
-    )
+port = input("\nEnter Port [8080]: ").strip()
+
+if not port:
+    port = "8080"
+
+print("\n========================")
+print("Starting CopyParty")
+print("========================")
+
+print(f"\nFolder : {share_dir}")
+print(f"Port   : {port}")
+print(f"URL    : http://{ip}:{port}")
+
+cmd = [
+    "copyparty",
+    "-p",
+    port,
+    "-v",
+    f"{share_dir}::r"
+]
+
+print("\nPress CTRL+C to stop.\n")
+
+subprocess.run(cmd)
+```
+
+if **name** == "**main**":
+main()
