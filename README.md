@@ -2,4 +2,4 @@
 
 Run:
 
-curl -fsSL <your-install-url> | bash
+curl -fsSL https://github.com/KkShiva/PhoneToServer-termux | bash
