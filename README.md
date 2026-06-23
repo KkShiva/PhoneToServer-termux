@@ -2,4 +2,4 @@
 
 Run:
 
-curl -fsSL https://github.com/KkShiva/PhoneToServer-termux | bash
+curl -fsSL https://raw.githubusercontent.com/KkShiva/PhoneToServer-termux/main/install.sh | bash
