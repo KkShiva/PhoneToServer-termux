@@ -1,4 +1,5 @@
-wget -O master.zip
-https://github.com/KkShiva/PhoneToServer-termux/main.zip
+pkg update -y
+pkg install git -y
 
-unzip master.zip
+git clone https://github.com/KkShiva/PhoneToServer-termux.git && cd PhoneToServer-termux
+
