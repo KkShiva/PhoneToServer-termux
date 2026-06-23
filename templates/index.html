@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PhoneToServer</title>
+</head>
+<body>
+
+<h2>Select Folder</h2>
+
+<form action="/start" method="post">
+
+<select name="folder">
+
+{% for folder in folders %}
+<option value="{{ folder }}">
+{{ folder }}
+</option>
+{% endfor %}
+
+</select>
+
+<br><br>
+
+Port:
+
+<input
+    type="number"
+    name="port"
+    value="8080">
+
+<br><br>
+
+<button type="submit">
+Start CopyParty
+</button>
+
+</form>
+
+</body>
+</html>
