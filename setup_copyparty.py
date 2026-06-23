@@ -1,32 +1,28 @@
 #!/data/data/com.termux/files/usr/bin/python
 
 import os
-import subprocess
 import re
+import subprocess
 
 def get_ip():
     try:
         output = subprocess.check_output(
-            ["ifconfig"],
-            text=True,
-            stderr=subprocess.DEVNULL
+            ["ip", "-4", "addr"],
+            text=True
         )
 
-        ips = re.findall(r'inet\s+(\d+\.\d+\.\d+\.\d+)', output)
+        ips = re.findall(r"inet (\d+\.\d+\.\d+\.\d+)", output)
 
         for ip in ips:
             if not ip.startswith("127."):
                 return ip
 
-
-
-ip = get_ip()
-print(ip)
-
     except Exception:
         pass
 
     return "Unknown"
+
+ip = get_ip()
 
 print()
 print("=" * 50)
